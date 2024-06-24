@@ -1,0 +1,36 @@
+name: Wordle Solutions Bot
+
+on: [push]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+        - name: Checkout code
+          uses: actions/checkout@v4
+        - name: Setup Python
+          uses: actions/setup-python@v5
+          with:
+            python-version: "3.12"
+        - name: Write today's Wordle solution to file
+          run: python main.py -w
+        - name: Setup Git config
+          env:
+            GH_EMAIL: ${{ secrets.GH_EMAIL }}
+          run: |
+            git config user.name "CSK"
+            git config user.email "${GH_EMAIL}"
+        - name: Commit and push changes
+          run: |
+            git add .
+            git commit -m "Adds Wordle solution for $(date +%Y-%m-%d)"
+            git push
+        - name: Send push notification if push was successful
+          if: success()
+          run: |
+            curl \
+              -H "Title: Wordle GitHub Action successful" \
+              -H "Content-Type: text/plain" \
+              -d $'Repo: ${{ github.repository }}\nCommit: ${{ github.sha }}\nRef: ${{ github.ref}}\nStatus: ${{ job.status}}' \
+              ${{ secrets.NTFY_GACTIONS_URL }}
