@@ -1,11 +1,13 @@
-from datetime import datetime, date
-from typing import TypedDict
 import re
 import sys
+import os
+from datetime import datetime, date
+from typing import TypedDict
+from dotenv import load_dotenv
 import requests
 
 # {
-#     "id": 1691,N
+#     "id": 1691,
 #     "solution": "proud",
 #     "print_date": "2024-06-15",
 #     "days_since_launch": 1092,
@@ -57,6 +59,7 @@ def get_wordle_data(date_string: str) -> WordleAPIData:
 
 
 def main():
+    load_dotenv()
     iso_date = get_date()
 
     wordle = get_wordle_data(iso_date)
