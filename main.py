@@ -73,9 +73,21 @@ def main():
     wordle = get_wordle_data(iso_date)
 
     parsed_date: datetime = datetime.strptime(iso_date, "%Y-%m-%d")
-    formatted_date = parsed_date.strftime("%d %B %Y")
+    formatted_date: str = parsed_date.strftime("%d %B %Y")
 
-    print(f"Wordle Solution ({formatted_date}): {wordle['solution']}")
+    solution_text = f"Wordle Solution ({formatted_date}): {wordle['solution']}"
+
+    print(solution_text)
+
+    requests.post(
+        url=NTFY_URL,
+        data=f"Wordle of the Day: {wordle['solution']} 🔠".encode("utf-8"),
+        headers={
+            "Title": f"Wordle Solution ({formatted_date})",
+            "Tags": "book,wordle,"
+        },
+        timeout=300
+    )
 
 
 if __name__ == "__main__":
