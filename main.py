@@ -42,15 +42,34 @@ def get_date() -> str:
 
 
 def get_wordle_data(date_string: str) -> WordleAPIData:
+    """
+    Fetches the Wordle game data for a given date from the New York Times Wordle API.
+
+    Parameters:
+    - date_string (str): The date for which to fetch the Wordle data, in 'YYYY-MM-DD' format.
+
+    Returns:
+    - WordleAPIData: A dictionary containing the Wordle game data for the specified date.
+
+    Raises:
+    - SystemExit: If the request to the Wordle API fails with a non-200 status code, the
+    function prints the error and exits the program.
+    """
+
+    # Construct the URL for the Wordle API request using the provided date string
     url: str = f"https://www.nytimes.com/svc/wordle/v2/{date_string}.json"
 
+    # Make the GET request to the Wordle API
     response = requests.get(url, timeout=300)
 
+    # Check if the response status code indicates an error
     if response.status_code != 200:
+        # Print the error details and exit the program
         print(f"There was a {response.status_code} error when getting the data from the Wordle API")
         print(response.json())
         sys.exit(1)
 
+    # Return the JSON response data as a dictionary
     return response.json()
 
 
