@@ -138,7 +138,12 @@ def main():
 
     # Check if the '-w' flag is present in command line arguments to write the solution to a file
     if "-w" in sys.argv:
-        filename: str = f"Wordle_Solution_{iso_date}.txt"
+        filename: str = f"solutions/Wordle_Solution_{iso_date}.txt"
+
+        # If the 'solutions' directory does not exist, create it
+        if not os.path.exists("solutions"):
+            print("Creating 'solutions' directory...")
+            os.makedirs("solutions")
 
         # Write the solution to a text file
         with open(filename, "w", encoding="utf-8") as file:
