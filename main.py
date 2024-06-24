@@ -89,6 +89,13 @@ def main():
         timeout=300
     )
 
+    if "-w" in sys.argv:
+        filename: str = f"Wordle_Solution_{iso_date}.txt"
+
+        with open(filename, "w", encoding="utf-8") as file:
+            file.write(solution_text)
+            print(f"Solution saved to {filename}")
+
 
 if __name__ == "__main__":
     main()
