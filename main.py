@@ -93,26 +93,39 @@ def get_wordle_data(date_string: str) -> WordleAPIData:
 
 
 def main():
+    """
+    Main function to fetch and post the Wordle solution for a specified or current date.
+    """
+
+    # Load environment variables from a .env file
     load_dotenv()
 
+    # Retrieve the NTFY_URL from environment variables
     NTFY_URL = os.getenv("NTFY_URL")
 
+    # Validate the NTFY_URL
     if NTFY_URL is None:
         print("NTFY_URL is not set in the environment variables")
         print("Please set it to the URL of your ntfy instance and try again")
         sys.exit(1)
 
+    # Fetch the date for which to retrieve the Wordle solution
     iso_date = get_date()
 
+    # Fetch the Wordle data for the specified date
     wordle = get_wordle_data(iso_date)
 
+    # Parse and format the date for display
     parsed_date: datetime = datetime.strptime(iso_date, "%Y-%m-%d")
     formatted_date: str = parsed_date.strftime("%d %B %Y")
 
+    # Construct the solution text
     solution_text = f"Wordle Solution ({formatted_date}): {wordle['solution']}"
 
+    # Print the solution text
     print(solution_text)
 
+    # Sends a push notification via ntfy with the Wordle solution
     requests.post(
         url=NTFY_URL,
         data=f"Wordle of the Day: {wordle['solution']} 🔠".encode("utf-8"),
@@ -123,9 +136,11 @@ def main():
         timeout=300
     )
 
+    # Check if the '-w' flag is present in command line arguments to write the solution to a file
     if "-w" in sys.argv:
         filename: str = f"Wordle_Solution_{iso_date}.txt"
 
+        # Write the solution to a text file
         with open(filename, "w", encoding="utf-8") as file:
             file.write(solution_text)
             print(f"Solution saved to {filename}")
