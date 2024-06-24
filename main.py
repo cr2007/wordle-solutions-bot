@@ -51,7 +51,7 @@ def get_wordle_data(date_string: str) -> WordleAPIData:
     response = requests.get(url, timeout=300)
 
     if response.status_code != 200:
-        print("There was an error when getting the data from the Wordle API")
+        print(f"There was a {response.status_code} error when getting the data from the Wordle API")
         print(response.json())
         sys.exit(1)
 
