@@ -22,22 +22,41 @@ class WordleAPIData(TypedDict):
     editor:            str
 
 def get_date() -> str:
+    """
+    Parses command line arguments for a date string and returns it in ISO format (YYYY-MM-DD).
+    If no valid date string is found in the arguments, returns today's date in ISO format.
+    Supports date strings in DD-MM-YYYY or YYYY-MM-DD format.
+
+    Returns:
+    - str: The date in ISO format (YYYY-MM-DD).
+
+    Raises:
+    - SystemExit: If an invalid date format is provided.
+    """
+    # Iterate over command line arguments to find a valid date string
     for arg in sys.argv[1:]:
+        # Check if the argument matches the expected date formats
         if re.match(r"^\d{2}-\d{2}-\d{4}$", arg) or re.match(r"^\d{4}-\d{2}-\d{2}$", arg):
             input_date_str: str = arg
             break
     else:
+        # If no date argument is found, return today's date in ISO format
         return date.today().isoformat()
 
+    # Attempt to parse the found date string
     try:
+        # Parse date string in DD-MM-YYYY format
         if re.match(r"^\d{2}-\d{2}-\d{4}$", input_date_str):
             input_date = datetime.strptime(input_date_str, "%d-%m-%Y")
+        # Parse date string in YYYY-MM-DD format
         else:
             input_date = datetime.strptime(input_date_str, "%Y-%m-%d")
     except ValueError:
+        # If parsing fails, print an error message and exit
         print("Invalid date format. Please use either DD-MM-YYYY or YYYY-MM-DD.")
         sys.exit(1)
 
+    # Return the parsed date in ISO format
     return input_date.date().isoformat()
 
 
