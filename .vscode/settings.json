@@ -13,6 +13,12 @@
 	"[python]": {
 		"editor.rulers": [100]
 	},
+	"[yaml]": {
+		"editor.insertSpaces": true,
+		"editor.tabSize": 2,
+		"editor.autoIndent": "advanced",
+		"diffEditor.ignoreTrimWhitespace": false
+	},
 	"diffEditor.ignoreTrimWhitespace": false,
 	"diffEditor.hideUnchangedRegions.enabled": true,
 	"python.analysis.typeCheckingMode": "basic",
