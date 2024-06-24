@@ -60,6 +60,14 @@ def get_wordle_data(date_string: str) -> WordleAPIData:
 
 def main():
     load_dotenv()
+
+    NTFY_URL = os.getenv("NTFY_URL")
+
+    if NTFY_URL is None:
+        print("NTFY_URL is not set in the environment variables")
+        print("Please set it to the URL of your ntfy instance and try again")
+        sys.exit(1)
+
     iso_date = get_date()
 
     wordle = get_wordle_data(iso_date)
