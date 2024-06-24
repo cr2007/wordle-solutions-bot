@@ -22,27 +22,23 @@ class WordleAPIData(TypedDict):
     editor:            str
 
 def get_date() -> str:
-    if len(sys.argv) > 1:
-        dd_mm_yyyy_pattern = re.compile(r"^\d{2}-\d{2}-\d{4}$")
-        yyyy_mm_dd_pattern = re.compile(r"^\d{4}-\d{2}-\d{2}$")
+    for arg in sys.argv[1:]:
+        if re.match(r"^\d{2}-\d{2}-\d{4}$", arg) or re.match(r"^\d{4}-\d{2}-\d{2}$", arg):
+            input_date_str: str = arg
+            break
+    else:
+        return date.today().isoformat()
 
-        input_date_str: str = sys.argv[1]
+    try:
+        if re.match(r"^\d{2}-\d{2}-\d{4}$", input_date_str):
+            input_date = datetime.strptime(input_date_str, "%d-%m-%Y")
+        else:
+            input_date = datetime.strptime(input_date_str, "%Y-%m-%d")
+    except ValueError:
+        print("Invalid date format. Please use either DD-MM-YYYY or YYYY-MM-DD.")
+        sys.exit(1)
 
-        try:
-            if dd_mm_yyyy_pattern.match(input_date_str):
-                input_date = datetime.strptime(input_date_str, "%d-%m-%Y")
-            elif yyyy_mm_dd_pattern.match(input_date_str):
-                input_date = datetime.strptime(input_date_str, "%Y-%m-%d")
-            else:
-                print("Invalid date format. Please use either DD-MM-YYYY or YYYY-MM-DD.")
-                sys.exit(1)
-        except ValueError as e:
-            print("Value error appeared:", e)
-            sys.exit(1)
-
-        return input_date.date().isoformat()
-
-    return date.today().isoformat()
+    return input_date.date().isoformat()
 
 
 def get_wordle_data(date_string: str) -> WordleAPIData:
