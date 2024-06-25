@@ -103,12 +103,6 @@ def main():
     # Retrieve the NTFY_URL from environment variables
     NTFY_URL = os.getenv("NTFY_URL")
 
-    # Validate the NTFY_URL
-    if NTFY_URL is None:
-        print("NTFY_URL is not set in the environment variables")
-        print("Please set it to the URL of your ntfy instance and try again")
-        sys.exit(1)
-
     # Fetch the date for which to retrieve the Wordle solution
     iso_date = get_date()
 
@@ -125,16 +119,21 @@ def main():
     # Print the solution text
     print(solution_text)
 
-    # Sends a push notification via ntfy with the Wordle solution
-    requests.post(
-        url=NTFY_URL,
-        data=f"Wordle of the Day: {wordle['solution']} 🔠".encode("utf-8"),
-        headers={
-            "Title": f"Wordle Solution ({formatted_date})",
-            "Tags": "book,wordle,"
-        },
-        timeout=300
-    )
+    if NTFY_URL is not None:
+        # Sends a push notification via ntfy with the Wordle solution
+        requests.post(
+            url=NTFY_URL,
+            data=f"Wordle of the Day: {wordle['solution']} 🔠".encode("utf-8"),
+            headers={
+                "Title": f"Wordle Solution ({formatted_date})",
+                "Tags": "book,wordle,"
+            },
+            timeout=300
+        )
+    else:
+        print("NTFY_URL is not set in the environment variables")
+        print("Please set it to the URL of your ntfy instance if you want to receive "
+              "push notifications.")
 
     # Check if the '-w' flag is present in command line arguments to write the solution to a file
     if "-w" in sys.argv:
