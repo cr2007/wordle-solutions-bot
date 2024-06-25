@@ -1,6 +1,8 @@
 name: Wordle Solutions Bot
 
-on: [push]
+on:
+  schedule:
+    - cron: "30 04 * * *" # Run every day at 4:30 AM UTC
 
 jobs:
   wordle-solution:
