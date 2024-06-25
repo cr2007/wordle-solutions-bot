@@ -3,7 +3,7 @@ name: Wordle Solutions Bot
 on: [push]
 
 jobs:
-  build:
+  wordle-solution:
     permissions:
         contents: write
     runs-on: ubuntu-latest
