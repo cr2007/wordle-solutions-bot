@@ -16,6 +16,8 @@ jobs:
         - name: Install Python dependencies
           run: pip install -r requirements.txt
         - name: Write today's Wordle solution to file
+          env:
+            NTFY_URL: ${{ secrets.NTFY_URL }}
           run: python main.py -w
         - name: Setup Git config
           env:
