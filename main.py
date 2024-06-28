@@ -134,6 +134,7 @@ def main():
         print("NTFY_URL is not set in the environment variables")
         print("Please set it to the URL of your ntfy instance if you want to receive "
               "push notifications.")
+        print("More Info: https://docs.ntfy.sh")
 
     # Check if the '-w' flag is present in command line arguments to write the solution to a file
     if "-w" in sys.argv:
