@@ -24,7 +24,9 @@ class WordleAPIData(TypedDict):
 def get_date() -> str:
     """
     Parses command line arguments for a date string and returns it in ISO format (YYYY-MM-DD).
+
     If no valid date string is found in the arguments, returns today's date in ISO format.
+
     Supports date strings in DD-MM-YYYY or YYYY-MM-DD format.
 
     Returns:
@@ -33,6 +35,7 @@ def get_date() -> str:
     Raises:
     - SystemExit: If an invalid date format is provided.
     """
+
     # Iterate over command line arguments to find a valid date string
     for arg in sys.argv[1:]:
         # Check if the argument matches the expected date formats
