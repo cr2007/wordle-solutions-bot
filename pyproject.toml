@@ -1,0 +1,22 @@
+[project]
+name = "wordle"
+version = "0.1.0"
+description = "Python Bot for retrieving the Wordle Solutions via the Wordle API"
+readme = "README.md"
+authors = [
+    {name = "CSK", email = "73425927+cr2007@users.noreply.github.com"},
+]
+requires-python = "<4.0,>=3.12"
+dependencies = [
+    "requests<3.0.0,>=2.32.3",
+    "python-dotenv<2.0.0,>=1.0.1",
+    "click>=8.1.8",
+]
+
+[project.scripts]
+word = "main:main"
+
+[dependency-groups]
+dev = [
+    "pylint<4.0.0,>=3.3.1",
+]
